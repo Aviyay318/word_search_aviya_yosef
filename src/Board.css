@@ -1,0 +1,17 @@
+.board{
+    display: flex;
+    justify-content: center;
+}
+.square{
+    display: inline-block;
+    border: 1px solid black;
+    width: 70px;
+    height: 70px;
+    font-size: 45px ;
+    text-align: center;
+}
+.second{
+    justify-content: center;
+    display: flex;
+    font-size: 30px ;
+}
