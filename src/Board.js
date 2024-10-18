@@ -6,6 +6,7 @@ function Board(props) {
     const [board, setBoard] = useState(setMyBoard);
     const [firstWord,setFirstWord] =useState()
     const[chosenWord,setChosenWord] = useState("")
+    const[isReverse,setIsReverse] = useState(false)
     function setMyBoard() {
         const newBoard = [];
         for (let i = 0; i < 10; i++) {
@@ -50,22 +51,40 @@ function mouseHandleUp(row,col){
     function mouseHandleDown(row,col){
         let tempWord=""
         if (firstWord.row===row){
-            for (let i = firstWord.col; i <= col; i++) {
-                tempWord+=board[row][i].letter
+            if (firstWord.col>col){
+                for (let i = col; i <=firstWord.col; i++) {
+                    tempWord+=board[row][i].letter
+                }
+                alert(tempWord)
+                setChosenWord(tempWord)
+                setIsReverse(true)
+            }else {
+                for (let i = firstWord.col; i <= col; i++) {
+                    tempWord+=board[row][i].letter
+                }
+                setChosenWord(tempWord)
+                setIsReverse(false)
             }
-            setChosenWord(tempWord)
+
         }else {
 
         }
     }
     function updateBoard(){
         const tempBoard  = [...board]
-        for (let i =firstWord.col ; i < firstWord.col+chosenWord.length; i++) {
-            tempBoard[firstWord.row][i].found = true
+        if (isReverse){
+            for (let i =(firstWord.col-chosenWord.length)+1 ; i <=firstWord.col ; i++) {
+                tempBoard[firstWord.row][i].found = true
+            }
+        }else {
+            for (let i =firstWord.col ; i < firstWord.col+chosenWord.length; i++) {
+                tempBoard[firstWord.row][i].found = true
+            }
         }
+
         setBoard(tempBoard)
     }
-    function checkMach(){
+    function checkMatch(){
        const check = wordList.filter(word=> {return word.word===chosenWord})
        if(check.length>0){
            // alert("great job you found " + chosenWord)
@@ -77,7 +96,7 @@ function mouseHandleUp(row,col){
     }
     useEffect(()=>{
         console.log(chosenWord)
-        checkMach()
+        checkMatch()
     },[chosenWord])
     return (
         <div>
